@@ -1,0 +1,18 @@
+{
+  "private": true,
+  "scripts": {
+    "dev": "nuxi dev",
+    "build": "nuxi build",
+    "start": "node .output/server/index.mjs"
+  },
+  "devDependencies": {
+    "nuxt3": "latest"
+  },
+  "dependencies": {
+    "@pinia/nuxt": "^0.1.8",
+    "@vueuse/core": "^8.2.4",
+    "pinia": "^2.0.13",
+    "sass": "^1.50.0",
+    "vue-router": "^4.0.14"
+  }
+}
