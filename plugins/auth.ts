@@ -2,44 +2,24 @@ import {useUserStore} from "~/store/user";
 import Role from "~/type/Auth/Role";
 import {useRememberMe} from "~/composables/useRememberMe";
 
-export default defineNuxtPlugin(() => {
+export default defineNuxtPlugin(async () => {
 
-    addRouteMiddleware('auth', (to) => {
+    addRouteMiddleware('auth', async (to) => {
         const userStore = useUserStore()
         const user = userStore.user
 
+        const guest = to.meta.guest ?? false
+        const allowed = to.meta.allowed
+
+        if([Role.ADMIN].includes(user.role)) return
+
         // @ts-ignore
-        if(!user.logged || !to.meta.allowed.includes(user.role)) {
+        if( (!user.logged && !guest) || (allowed && !allowed.includes(user.role))) {
             console.log("Vous n'etes pas autorisé !")
             return abortNavigation()
         }
     })
 
-    addRouteMiddleware('auth-check', async () => {
-
-        const base_api = useApi()
-        const userStore = useUserStore()
-        const user = userStore.user
-
-        if(!user.logged && !user.checked){
-            await $fetch(base_api.value + '/auth/remember', {
-                method: 'GET',
-                credentials: 'include',
-                async onResponse({  response }) {
-                    if(response.ok){
-                        userStore.register(response._data)
-                    }
-                }
-            })
-            .then(data => {
-                user.checked = true
-            })
-            .catch(data => {
-                return
-            })
-        }
-
-    }, {global: true})
 
     return {
         provide: {

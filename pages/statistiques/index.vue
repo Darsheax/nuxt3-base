@@ -10,7 +10,8 @@ import Role from "~/type/Auth/Role";
 
 definePageMeta({
   middleware: ['auth'],
-  allowed: [Role.PRENIUM, Role.EDITOR, Role.ADMIN]
+  guest: false,
+  allowed: [Role.PRENIUM, Role.EDITOR],
 })
 
 </script>

@@ -5,24 +5,27 @@
 
       <FormInput label="Email" name="email" v-model="login.payload.email"/>
       <div class="error-container" v-if="login.errors?.email">
-        {{login.errors.email.rule}}: {{login.errors.email.message}}
+        {{ login.errors.email.rule }}: {{ login.errors.email.message }}
       </div>
       <FormInput label="Mot de passe" name="password" v-model="login.payload.password"/>
       <div class="error-container" v-if="login.errors?.password">
-        {{login.errors.password.rule}}: {{login.errors.password.message}}
+        {{ login.errors.password.rule }}: {{ login.errors.password.message }}
       </div>
       <hr>
       <div class="error-container" v-if="login.errorMessage && !hasError">
-        {{login.errorMessage}}
+        {{ login.errorMessage }}
       </div>
       <button type="submit">Envoyer</button>
     </form>
+
+    <button @click="redirectGoogle">Connexion avec google</button>
 
   </div>
 </template>
 
 <script setup lang="ts">
 import {useUserStore} from "~/store/user";
+import Role from "~/type/Auth/Role";
 
 const login = reactive({
   payload: {
@@ -33,22 +36,28 @@ const login = reactive({
   errorMessage: "",
 })
 
+const config = useRuntimeConfig()
+const $router = useRoute()
 
-const base_api = useApi()
 const userStore = useUserStore()
 
 const hasError = computed(() => {
   return Object.getPrototypeOf(login.errors) !== Object.prototype || Object.keys(login.errors).length !== 0
 })
 
+const redirectGoogle = async () => {
+    window.location.href = config.API_URL + '/auth/google/redirect'
+}
+
 
 const onSubmit = async () => {
-  await $fetch(base_api.value + '/auth/login', {
+  await $fetch('/auth/login', {
+    baseURL: config.API_URL,
     method: 'POST',
     body: login.payload,
     credentials: 'include',
-    async onResponse({ request, response, options }) {
-      if(response.ok){
+    async onResponse({request, response, options}) {
+      if (response.ok) {
         login.errors = {}
         login.errorMessage = ''
         userStore.register(response._data)
@@ -66,11 +75,11 @@ const onSubmit = async () => {
 
 <style lang="sass">
 
-  .form-login
-    width: 250px
-    margin: auto
+.form-login
+  width: 250px
+  margin: auto
 
-  .error-container
-    color: red
+.error-container
+  color: red
 
 </style>

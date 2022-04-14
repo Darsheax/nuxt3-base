@@ -8,10 +8,9 @@ export const useUserStore = defineStore("user", () => {
     const user = ref({
         email: "",
         name: "",
-        role: Role.USER,
+        role: -1,
         logged: false,
         checked: false,
-        n: 0
     })
 
     const register = ({email, name, role} : User) => {

@@ -11,6 +11,7 @@
   "dependencies": {
     "@pinia/nuxt": "^0.1.8",
     "@vueuse/core": "^8.2.4",
+    "cookie-universal-nuxt": "^2.1.5",
     "pinia": "^2.0.13",
     "sass": "^1.50.0",
     "vue-router": "^4.0.14"
