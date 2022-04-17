@@ -6,7 +6,7 @@ const permissions_validator = {
             return {limit: data.limit}
         }
     },
-    'post:edit': (user, data, arg) => {
+    'post:edit': (user, _, arg) => {
         console.log(arg)
         if (arg.user !== user.id) {
             return {author: `Seul l'auteur ${arg.user} est autorisé a [EDIT]`}
