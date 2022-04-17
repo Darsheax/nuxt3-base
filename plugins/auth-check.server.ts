@@ -1,4 +1,5 @@
 import {useUserStore} from "~/store/user";
+import {User} from "~/type/auth";
 
 export default defineNuxtPlugin(async () => {
 
@@ -14,16 +15,16 @@ export default defineNuxtPlugin(async () => {
                 method: 'POST',
                 headers: useRequestHeaders(['cookie']),
                 credentials: 'include',
-                async onResponse({  response }) {
+                async onResponse({  response}) {
                     if(response.ok){
                         userStore.register(response._data)
                     }
                 }
             })
                 .then(data => {
-                    user.checked = true
+                    userStore.register(data as User)
                 })
-                .catch(data => {
+                .catch(_ => {
                     return
                 })
         }

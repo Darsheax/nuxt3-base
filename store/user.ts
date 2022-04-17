@@ -1,19 +1,22 @@
 import {ref} from "vue"
 import {defineStore} from "pinia";
-import User from "~/type/Auth/User";
-import Role from "~/type/Auth/Role";
+import {Role, User} from "~/type/auth";
 
 export const useUserStore = defineStore("user", () => {
 
     const user = ref({
+        id: -1,
         email: "",
         name: "",
-        role: -1,
+        role: Role.GUEST,
         logged: false,
-        checked: false,
+        permission: {
+            edit: 120
+        }
     })
 
-    const register = ({email, name, role} : User) => {
+    const register = ({id, email, name, role} : User) => {
+        user.value.id = id
         user.value.email = email
         user.value.name = name
         user.value.role = role

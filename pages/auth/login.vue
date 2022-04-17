@@ -25,7 +25,15 @@
 
 <script setup lang="ts">
 import {useUserStore} from "~/store/user";
-import Role from "~/type/Auth/Role";
+
+definePageMeta({
+  middleware: ['auth'],
+
+  auth : useAuth({
+    type: 'guest'
+  })
+
+})
 
 const login = reactive({
   payload: {
@@ -56,7 +64,7 @@ const onSubmit = async () => {
     method: 'POST',
     body: login.payload,
     credentials: 'include',
-    async onResponse({request, response, options}) {
+    async onResponse({response}) {
       if (response.ok) {
         login.errors = {}
         login.errorMessage = ''

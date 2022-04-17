@@ -22,10 +22,27 @@
 
     <NuxtLink to="/statistiques">Stats</NuxtLink>
 
+    <hr>
+
+    <h2>{{ post.name }}</h2>
+
+    <button v-can:[post].post:edit="edit">Edition</button> {{edit}}
+    <button v-can.post:create="create">Création de post</button> {{create}}
+
   </div>
 </template>
 
 <script setup lang="ts">
+
+const post = {
+  name: 'un article de ouf',
+  user: 3
+}
+
+const {$user} = useNuxtApp()
+
+const edit = ref({})
+const create = ref({})
 
 </script>
 

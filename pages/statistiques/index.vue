@@ -6,12 +6,15 @@
 </template>
 
 <script setup lang="ts">
-import Role from "~/type/Auth/Role";
+
+import {Role} from "~/composables/useAuth";
 
 definePageMeta({
   middleware: ['auth'],
-  guest: false,
-  allowed: [Role.PRENIUM, Role.EDITOR],
+  auth : useAuth({
+    allowed: [Role.PRENIUM],
+    type: 'login',
+  })
 })
 
 </script>
